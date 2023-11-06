@@ -11,12 +11,12 @@ const VinylInstanceSchema = new Schema({
         enum: ["Available", "Loaned", "Auction", "Sold"],
         default: "Available"
     },
-    quantity: {type: Int16Array, required: true},
-    price: {type: Float32Array, required: true},
+    quantity: {type: Number, required: true},
+    price: {type: Number, required: true},
 })
 
 VinylInstanceSchema.virtual("url").get(function() {
     return `catalog/copies/${this._id}`
 });
 
-module.exports = mongoose.model("Artist", VinylInstanceSchema);
+module.exports = mongoose.model("VynilInstance", VinylInstanceSchema);

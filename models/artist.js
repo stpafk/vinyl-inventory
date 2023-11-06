@@ -6,7 +6,7 @@ const ArtistSchema = new Schema({
     artist_name: {type: String, required: true, maxLenght: 150},
     formed_in: {type: String, required: true, maxLenght: 30},
     description: {type: String, maxLenght: 500},
-    genre: [{type: Schema.Types.ObjectId, ref: "Genre"}],
+    image: { type: String, required: true }
 })
 
 ArtistSchema.virtual("url").get(function() {
