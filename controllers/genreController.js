@@ -27,7 +27,7 @@ exports.genre_create_post = [
   
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    const genre = new Genre({name: req.body.name});
+    const genre = new Genre({name: req.body.name, description: req.body.description});
 
     if (!errors.isEmpty()) {
       res.render("genre_form", {
