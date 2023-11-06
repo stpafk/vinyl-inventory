@@ -1,0 +1,25 @@
+extends layout 
+
+block content 
+    h1=title 
+
+    form(method='POST' action='')
+        div.form-content
+            label(for="artist_name") Artist Name:
+            input#artist_name.form-control(type='text', placeholder='Artist name', required='true', name='artist_name', value=(undefined === artist ? '' : artist.artist_name))
+
+            label(for="formed_in") Formed in:
+            input#formed_in.form-control(type='text', placeholder='Formed in', required='true', name='formed_in', value=(undefined === artist ? '' : artist.formed_in))
+
+            label(for="description") Description:
+            textarea#description.form-control(type='text', placeholder='Description', name='description', value=(undefined === artist ? '' : artist.description))
+
+            label(for="image") Image:
+            input#image.form-control(type='file', name='image') 
+
+        button(type='submit') Create Artist
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg
