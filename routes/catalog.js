@@ -9,7 +9,7 @@ const genre_controller = require("../controllers/genreController");
 
 //artist routes
 router.get("/artist/create", artist_controller.artist_create_get);
-router.post("/artist/create",  upload.single("file"), artist_controller.artist_create_post);
+router.post("/artist/create",  upload.single("image"), artist_controller.artist_create_post);
 router.get("/artist/:id/delete", artist_controller.artist_delete_get);
 router.post("/artist/:id/delete", artist_controller.artist_delete_post);
 router.get("/artist/:id/update", artist_controller.artist_update_get);

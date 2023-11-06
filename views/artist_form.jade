@@ -3,7 +3,7 @@ extends layout
 block content 
     h1=title 
 
-    form(method='POST' action='')
+    form(method='POST' action='' enctype="multipart/form-data")
         div.form-content
             label(for="artist_name") Artist Name:
             input#artist_name.form-control(type='text', placeholder='Artist name', required='true', name='artist_name', value=(undefined === artist ? '' : artist.artist_name))
@@ -18,8 +18,3 @@ block content
             input#image.form-control(type='file', name='image') 
 
         button(type='submit') Create Artist
-
-  if errors
-   ul
-    for error in errors
-     li!= error.msg
