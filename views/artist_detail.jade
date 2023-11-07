@@ -7,7 +7,7 @@ block content
         a(href=artist.url) #{artist.artist_name}
     p #[strong Description:] #{artist.description}
     p #[strong Formed In:] #{artist.formed_in}
-    img(src=artist.image, alt="Artist Image")
+    img(src="http://localhost:3000/" + artist.image, alt="Artist Image")
 
     div(style='margin-left:20px;margin-top:20px')
     h4 Copies
@@ -19,7 +19,7 @@ block content
                 a(href=v.url) #{v.vynil_name}
             p #[strong Year of Release:] #{v.year_of_release}
             p #[strong Formed In:] #{artist.formed_in}
-            img(src= v.cover, alt=v.vynil_name)  
+            img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name)  
     else
         p There are no vynils related to this artist
 

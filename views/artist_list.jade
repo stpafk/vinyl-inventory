@@ -7,7 +7,7 @@ block content
         ul
             each a in artists 
                 li
-                    img(src=a.image, alt="Artist Image" style=('width: 128px; height: 128px'))
+                    img(src="http://localhost:3000/" + a.image, alt="Artist Image" style=('width: 128px; height: 128px'))
                     p #[strong Artist:]
                         a(href=a.url) #{a.artist_name} 
                     p #[strong Description:] #{a.description}
