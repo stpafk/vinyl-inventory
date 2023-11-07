@@ -6,7 +6,7 @@ const VinylSchema = new Schema({
     vynil_name: {type: String, required: true},
     artist: {type: Schema.Types.ObjectId, ref: "Artist", required: true},
     summary: {type: String, required: true},
-    year_of_release: {type: Number, required: true},
+    year_of_release: {type: Date, required: true},
     genre: [{type: Schema.Types.ObjectId, ref: "Genre"}],
     cover: { type: String }
 });
