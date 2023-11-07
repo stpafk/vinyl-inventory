@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    h1=title
+
+    h1 #{genre.name}
+    p= genre.description
+
+    div(style='margin-left:20px;margin-top:20px')
+    h4 Vinyls
+
+    ul
+    each v in vinyls
+        li
+            p #[strong Vinyl:]  
+                a(href=v.url) #{v.vynil_name}
+            p #[strong Year of Release:] #{v.year_of_release}
+            p #[strong Formed In:] #{artist.formed_in}
+            img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name)  
+    else
+        p There are no vynils related to this artist
+
+    hr
+    p
+        a(href=genre.url+'/delete') Delete Genre
+    p
+        a(href=genre.url+'/update') Update Genre

@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+
+    h1=title
+        ul
+            each g in genres 
+                li
+                    p #[strong Genre:]
+                        a(href=g.url) #{g.name} 
+                    p #[strong Description:] #{g.description}
+
+            else 
+                p There are no genres in the system.

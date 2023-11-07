@@ -1,27 +1,28 @@
 extends layout 
 
 block content 
-    h1 #{title}: #{artist.name}
+    h1 #{title}: #{genre.name}
+    p= genre.description
 
-    if artist_vinyls.length 
+    if vinyl.length
 
-        p #[strong Delete the following albums in order to delete this artist.]
+        p #[strong Delete the following vinyls in order to delete this genre.]
 
         div(style='margin-left:20px;margin-top:20px')
 
             h4 Vinyls
 
             dl
-            each v in artist_vinyls
+            each v in vinyl
                 dt
                 a(href=v.url) #{v.vinyl_name}
                 dd #{v.summary}
 
     else
-        p Do you really want to delete this artist?
+        p Do you really want to delete this genre?
 
         form(method='POST' action='')
             div.form-group
-                input#authorid.form-control(type='hidden',name='artist', required='true', value=artist._id )
+                input#authorid.form-control(type='hidden',name='genre', required='true', value=genre._id )
 
             button.btn.btn-primary(type='submit') Delete
