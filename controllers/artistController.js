@@ -2,6 +2,7 @@ const Artist = require("../models/artist");
 const Vinyl = require("../models/vinyl");
 const asyncHandler = require('express-async-handler')
 const {body, validationResult} = require('express-validator');
+const fs = require('fs')
 
 exports.artist_list = asyncHandler(async (req, res, next) => {
     const allArtists = await Artist.find().sort({artist_name: 1}).exec();
@@ -100,8 +101,17 @@ exports.artist_delete_post = asyncHandler(async (req, res, next) => {
             artist: artist,
             artist_vinyls: vinyls,
         })
-        return
+        return;
     };
+
+    const imageToRemove = '../vynil-inventory/' + artist.image;
+    fs.unlink(imageToRemove, (err) => {
+        if (err) {
+            console.log('err removing file')
+            console.log(err)
+        }
+        console.log('deleted')
+    })  
 
     await Artist.findByIdAndDelete(req.params.id);
     res.redirect("/catalog/artist")
