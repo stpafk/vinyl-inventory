@@ -15,7 +15,7 @@ exports.artist_list = asyncHandler(async (req, res, next) => {
 exports.artist_detail = asyncHandler(async (req, res, next) => {
     const [artist, vinylByArtist] = await Promise.all([
         Artist.findById(req.params.id).exec(),
-        Vinyl.find({author: req.params.id}).exec(),
+        Vinyl.find({artist: req.params.id}).exec(),
     ])
 
     if (artist === null) {
@@ -49,8 +49,11 @@ exports.artist_create_post = [
             artist_name: req.body.artist_name,
             formed_in: req.body.formed_in,
             description: req.body.description,
-            image: req.file.path
         });
+
+        if (req.file) {
+            artist.image = req.file.path
+        }
 
         if (!error.isEmpty()) {
             res.render("artist_form", {
@@ -67,18 +70,48 @@ exports.artist_create_post = [
 ]
 
 exports.artist_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: artist delete GET");
+    const [artist, vinyls] = await Promise.all([
+        Artist.findById(req.params.id).exec(),
+        Vinyl.find({artist: req.params.id}).exec(),
+    ])
+
+    if (artist === null) {
+        const err = new Error("Not found artist.");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("artist_delete", {
+        title: "Delete Artist",
+        artist: artist,
+        artist_vinyls: vinyls,
+    })
 });
   
 exports.artist_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: artist delete POST");
+    const [artist, vinyls] = await Promise.all([
+        Artist.findById(req.params.id),
+        Vinyl.find({artist: req.params.id}),
+    ]);
+
+    if (vinyls.length > 0) {
+        res.render("artist_delete", {
+            title: "Delete Artist",
+            artist: artist,
+            artist_vinyls: vinyls,
+        })
+        return
+    };
+
+    await Artist.findByIdAndDelete(req.params.id);
+    res.redirect("/catalog/artist")
 });
   
 exports.artist_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: artist update GET");
+    res.render("NOT IMPLEMENTED: artist update GET");
 });
   
 exports.artist_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: artist update POST");
+    res.render("NOT IMPLEMENTED: artist update POST");
 });
 

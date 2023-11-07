@@ -15,6 +15,6 @@ block content
             textarea#description.form-control(type='text', placeholder='Description', name='description', value=(undefined === artist ? '' : artist.description))
 
             label(for="image") Image:
-            input#image.form-control(type='file', name='image') 
+            input#image.form-control(type='file', name='image' value=(undefined === artist ? '' : artist.image)) 
 
-        button(type='submit') Create Artist
+        button(type='submit') Submit
