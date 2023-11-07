@@ -3,7 +3,7 @@ extends layout
 block content 
     h1=title 
 
-    form(method='POST' action='' enctype="multipart/form-data")
+    form(method='POST' action='' enctype=(undefined === artist ? "multipart/form-data" : ""))
         div.form-content
             label(for="artist_name") Artist Name:
             input#artist_name.form-control(type='text', placeholder='Artist name', required='true', name='artist_name', value=(undefined === artist ? '' : artist.artist_name))
@@ -12,9 +12,14 @@ block content
             input#formed_in.form-control(type='text', placeholder='Formed in', required='true', name='formed_in', value=(undefined === artist ? '' : artist.formed_in))
 
             label(for="description") Description:
-            textarea#description.form-control(type='text', placeholder='Description', name='description', value=(undefined === artist ? '' : artist.description))
+            textarea#description.form-control(type='text', placeholder='Description', name='description') #{undefined === artist ? '' : artist.description}
 
             label(for="image") Image:
-            input#image.form-control(type='file', name='image' value=(undefined === artist ? '' : artist.image)) 
+            input#image.form-control(type='file', name='image') 
 
         button(type='submit') Submit
+
+      if errors
+        ul
+            for error in errors
+                li!= error.msg
