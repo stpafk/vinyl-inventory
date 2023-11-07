@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+
+    h1 #[strong Artist List] 
+        
+        ul
+            each a in artists 
+                li
+                    img(src=a.image, alt="Artist Image" style=('width: 128px; height: 128px'))
+                    p #[strong Artist:]
+                        a(href=a.url) #{a.artist_name} 
+                    p #[strong Description:] #{a.description}
+                    p #[strong Formed In:] #{a.formed_in}
+
+            else 
+                p There are no artists in the system.

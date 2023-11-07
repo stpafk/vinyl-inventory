@@ -1,5 +1,5 @@
 const Artist = require("../models/artist");
-const artist = require("../models/artist");
+const Vinyl = require("../models/vinyl");
 const asyncHandler = require('express-async-handler')
 const {body, validationResult} = require('express-validator');
 
@@ -8,12 +8,27 @@ exports.artist_list = asyncHandler(async (req, res, next) => {
 
     res.render("artist_list", {
         title: "Artist List",
-        artist_list: allArtists,
+        artists: allArtists,
     });
 });
 
 exports.artist_detail = asyncHandler(async (req, res, next) => {
-    res.render("artist_form", {title: "Create Artist"});
+    const [artist, vinylByArtist] = await Promise.all([
+        Artist.findById(req.params.id).exec(),
+        Vinyl.find({author: req.params.id}).exec(),
+    ])
+
+    if (artist === null) {
+        const err = new Error("No matching artist found.");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("artist_detail", {
+        title: "Artist Detail",
+        artist: artist,
+        vinyl: vinylByArtist,
+    })
 })
 
 exports.artist_create_get = asyncHandler(async (req, res, next) => {
