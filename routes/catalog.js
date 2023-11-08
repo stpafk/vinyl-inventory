@@ -19,7 +19,7 @@ router.get("/artist", artist_controller.artist_list);
 
 //vynil routes
 router.get("/vinyl/create", vinyl_controller.vinyl_create_get);
-router.post("/vynil/create", vinyl_controller.vinyl_create_post);
+router.post("/vinyl/create", vinyl_controller.vinyl_create_post);
 router.get("/vinyl/:id/delete", vinyl_controller.vinyl_delete_get); 
 router.post("/vynil/:id/delete", vinyl_controller.vinyl_delete_post); 
 router.get("/vinyl/:id/update", vinyl_controller.vinyl_update_get); 
