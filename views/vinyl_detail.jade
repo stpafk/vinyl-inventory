@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Title: #{vinyl.vinyl_name}
+
+  p #[strong Artist:]
+    a(href=vinyl.artist.url) #{vinyl.artist.artist_name}
+  p #[strong Summary:] #{vinyl.summary}
+  p #[strong Formed In:] #{vinyl.formatted_date}
+  p #[strong Genre:]
+    each val, index in vinyl.genre
+      a(href=val.url) #{val.name}
+      if index < vinyl.genre.length - 1
+        |,
+
+  div(style='margin-left:20px;margin-top:20px')
+    h4 Copies
+
+    each val in copy
+      hr
+      if val.status=='Available'
+        p.text-success #{val.status}
+      else if val.status=='Loaned'
+        p.text-danger #{val.status}
+      else
+        p.text-warning #{val.status}
+      p #[strong Imprint:] #{val.imprint}
+      p #[strong Id:]
+        a(href=val.url) #{val._id}
+
+    else
+      p There are no copies of this vinyl.
+
+    hr
+    p
+      a(href=vinyl.url+'/delete') Delete vinyl
+    p
+      a(href=vinyl.url+'/update') Update vinyl

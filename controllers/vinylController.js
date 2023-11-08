@@ -6,7 +6,10 @@ const {body, validationResult} = require('express-validator');
 const asyncHandler = require("express-async-handler");
 
 exports.vinyl_list = asyncHandler(async (req, res, next) => {
-    const vinyls = await Vinyl.find().sort({vinyl_name: 1}).exec();
+    const vinyls = await Vinyl.find({}, "vinyl_name artist")
+    .sort({vinyl_name: 1})
+    .populate("artist")
+    .exec();
 
     res.render("vinyl_list", {
         title: "All Vinyls",
@@ -16,8 +19,8 @@ exports.vinyl_list = asyncHandler(async (req, res, next) => {
   
 exports.vinyl_detail = asyncHandler(async (req, res, next) => {
     const [vinyl, copy] = await Promise.all([
-        Vinyl.findById(req.params.id).exec(),
-        VinylInstance.find({vinyl: req.params.id}),
+        Vinyl.findById(req.params.id).populate("artist").exec(),
+        VinylInstance.find({vinyl: req.params.id}).exec(),
     ])
 
     if (vinyl === null) {
