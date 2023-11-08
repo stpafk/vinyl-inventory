@@ -19,7 +19,7 @@ router.get("/artist", artist_controller.artist_list);
 
 //vynil routes
 router.get("/vinyl/create", vinyl_controller.vinyl_create_get);
-router.post("/vinyl/create", vinyl_controller.vinyl_create_post);
+router.post("/vinyl/create", upload.single("cover"), vinyl_controller.vinyl_create_post);
 router.get("/vinyl/:id/delete", vinyl_controller.vinyl_delete_get); 
 router.post("/vynil/:id/delete", vinyl_controller.vinyl_delete_post); 
 router.get("/vinyl/:id/update", vinyl_controller.vinyl_update_get); 
@@ -29,7 +29,7 @@ router.get("/vinyl", vinyl_controller.vinyl_list);
 
 //vinylinstance routes
 router.get("/copy/create", vinylInstance_controller.copy_create_get);
-router.post("/copy/create", vinylInstance_controller.copy_create_post);
+router.post("/copy/create", upload.single("image"), vinylInstance_controller.copy_create_post);
 router.get("/copy/:id/delete", vinylInstance_controller.copy_delete_get);
 router.post("/copy/:id/delete", vinylInstance_controller.copy_delete_post);
 router.get("/copy/:id/update", vinylInstance_controller.copy_update_get);

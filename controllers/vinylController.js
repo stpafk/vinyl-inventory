@@ -50,7 +50,6 @@ exports.vinyl_create_post = [
         }
 
         if(req.file) {
-            console.log(req.file.path)
             req.body.cover = req.file.path;
         }
 
@@ -70,7 +69,7 @@ exports.vinyl_create_post = [
         if (artistExist) {
             req.body.artist = artistExist._id;
         } else {
-            body("artist").escape("Artist does not exist. Upload it before assigning an Vinyl to they.")
+            body("artist").escape("Artist does not exist. Upload it before assigning an Vinyl to them.")
         }
 
         const errors = validationResult(req);
