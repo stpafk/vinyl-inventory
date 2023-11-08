@@ -13,7 +13,7 @@ const VinylSchema = new Schema({
 });
 
 VinylSchema.virtual("url").get(function() {
-    return `/catalog/vynil/${this.id}`;
+    return `/catalog/vinyl/${this.id}`;
 });
 
 VinylSchema.virtual("formatted_date").get(function() {

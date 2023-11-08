@@ -25,7 +25,7 @@ router.post("/vynil/:id/delete", vinyl_controller.vinyl_delete_post);
 router.get("/vinyl/:id/update", vinyl_controller.vinyl_update_get); 
 router.post("/vinyl/:id/update", vinyl_controller.vinyl_update_post); 
 router.get("/vinyl/:id", vinyl_controller.vinyl_detail);
-router.get("/vinyl", vinyl_controller.vinyl_list);
+router.get("/vinyls", vinyl_controller.vinyl_list);
 
 //vinylinstance routes
 router.get("/copy/create", vinylInstance_controller.copy_create_get);
