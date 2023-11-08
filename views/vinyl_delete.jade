@@ -1,0 +1,28 @@
+extends layout 
+
+block content 
+    h1 #{title}: #{vinyl.name}
+
+    if copy.length 
+
+        p #[strong Not possible to delete the vinyl. Here are copies related to this vynil:]
+
+        div(style='margin-left:20px;margin-top:20px')
+
+            h4 Vinyls
+
+            dl
+            each v in copy
+                dt
+                a(href=v.url) #{v.vinyl_name}
+                p #{v.summary}
+                dd #{v.summary}
+
+    else
+        p Do you really want to delete this vinyl?
+
+        form(method='POST' action='')
+            div.form-group
+                input#authorid.form-control(type='hidden',name='vinyl', required='true', value=vinyl._id )
+
+            button.btn.btn-primary(type='submit') Delete

@@ -9,13 +9,13 @@ block content
             input#vinyl_name.form-control(type='text', placeholder='Vinyl Name', required='true', name='vinyl_name', value=(undefined === vinyl ? '' : vinyl.vinyl_name))
         div.form-content
             label(for="artist") Artist: 
-            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true' name="artist" value=(undefined === vinyl ? '' : vinyl.artist))
+            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true' name="artist" value=(undefined === vinyl ? '' : vinyl.artist.artist_name))
         div.form-content
             label(for="description") Summary:
             textarea#summary.form-control(type='text', placeholder='', name='summary') #{undefined === vinyl ? '' : vinyl.summary}
         div.form-content
             label(for="date_of_release") Date of release:
-            input#date_of_release.form-control(type='date' name='date_of_release' value=(undefined===vinyl ? '' : vinyl.date_of_release) )
+            input#date_of_release.form-control(type='date' name='date_of_release' value=(undefined===vinyl ? '' : vinyl.format_yyyy_mm_dd ) )
         div.form-group
             label Genre:
             div
@@ -23,9 +23,10 @@ block content
                     div(style='display: inline; padding-right:10px;')
                         input.checkbox-input(type='checkbox', name='genre', id=genre._id, value=genre._id, checked=genre.checked )
                         label(for=genre._id) #{genre.name}
-        div.form-content
-            label(for="cover") Image:
-            input#cover.form-control(type='file', name='cover') 
+        if !vinyl
+            div.form-content
+                label(for="cover") Image:
+                input#cover.form-control(type='file', name='cover') 
 
         button.btn.btn-primary(type='submit') Submit
 
