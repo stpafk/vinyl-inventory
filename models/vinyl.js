@@ -20,4 +20,8 @@ VinylSchema.virtual("formatted_date").get(function() {
     return this.date_of_release ? DateTime.fromJSDate(this.date_of_release).toLocaleString(DateTime.MED) : "";
 })
 
+VinylSchema.virtual("format_yyyy_mm_dd").get(function() {
+    return DateTime.fromJSDate(this.date_of_release).toISODate();
+});
+
 module.exports = mongoose.model("Vinyl", VinylSchema);
