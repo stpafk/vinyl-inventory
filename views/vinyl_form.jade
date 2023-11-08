@@ -3,34 +3,33 @@ extends layout
 block content 
     h1=title 
 
-    form(method='POST' action='' enctype=(undefined === vinyl ? "multipart/form-data" : ""))
+    form(method='POST' action='' enctype=(undefined === vinyl ? 'multipart/form-data' : ''))
         div.form-content
             label(for="vinyl_name") Vinyl Name:
             input#vinyl_name.form-control(type='text', placeholder='Vinyl Name', required='true', name='vinyl_name', value=(undefined === vinyl ? '' : vinyl.vinyl_name))
-
+        div.form-content
             label(for="artist") Artist: 
-            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true')
-
+            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true' name="artist" value=(undefined === vinyl ? '' : vinyl.artist))
+        div.form-content
             label(for="description") Summary:
-            textarea#summary.form-control(type='text', placeholder='Description', name='description') #{undefined === vinyl ? '' : vinyl.summary}
-
+            textarea#summary.form-control(type='text', placeholder='', name='summary') #{undefined === vinyl ? '' : vinyl.summary}
+        div.form-content
             label(for="date_of_release") Date of release:
             input#date_of_release.form-control(type='date' name='date_of_release' value=(undefined===vinyl ? '' : vinyl.date_of_release) )
-
-            div.form-group
-                label Genre:
-                div
-                    for genre in genres
-                        div(style='display: inline; padding-right:10px;')
+        div.form-group
+            label Genre:
+            div
+                for genre in genres
+                    div(style='display: inline; padding-right:10px;')
                         input.checkbox-input(type='checkbox', name='genre', id=genre._id, value=genre._id, checked=genre.checked )
                         label(for=genre._id) #{genre.name}
-
-            label(for="image") Image:
-            input#image.form-control(type='file', name='image') 
+        div.form-content
+            label(for="cover") Image:
+            input#cover.form-control(type='file', name='cover') 
 
         button.btn.btn-primary(type='submit') Submit
 
-      if errors
-        ul
-            for error in errors
-                li!= error.msg
+        if errors
+            ul
+                for error in errors
+                    li!= error.msg
