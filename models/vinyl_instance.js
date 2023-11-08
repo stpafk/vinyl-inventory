@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const VinylInstanceSchema = new Schema({
-    artist: {type: Schema.ObjectId, ref: "Artist", required: true},
     vinyl: {type: Schema.ObjectId, ref: "Vinyl", required: true},
     status: {
         type: String,
