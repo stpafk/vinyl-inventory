@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 require("dotenv").config();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/user');
 const catalogRouter =  require('./routes/catalog');
 
 var app = express();
@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use('/catalog', catalogRouter);
 app.use('/uploads', express.static("uploads"))
 
