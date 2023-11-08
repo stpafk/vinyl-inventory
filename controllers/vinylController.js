@@ -86,10 +86,7 @@ exports.vinyl_create_post = [
         });
 
         if(!errors.isEmpty()) {
-            const [allAuthors, allGenres] = await Promise.all([
-                Artist.find().exec(),
-                Genre.find().exec(),
-              ]);
+            const allGenres = await Genre.find().exec();
         
               for (const genre of allGenres) {
                 if (vinyl.genre.includes(genre._id)) {
@@ -110,20 +107,113 @@ exports.vinyl_create_post = [
         res.redirect(vinyl.url);
 
     })
-]
+];
   
 exports.vinyl_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: vinyl delete GET");
+    const [vinyl, copy] = await Promise.all([
+        Vinyl.findById(req.params.id).exec(),
+        VinylInstance.find({vinyl: req.params.id})
+        .populate("vinyl")
+        .exec(),
+    ])
+
+    if (vinyl === null) {
+        const err = new Error("Vinyl Not Found");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("vinyl_delete", {
+        title: "Delete Vinyl",
+        vinyl: vinyl,
+        copy: copy,
+    });
 });
   
 exports.vinyl_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: vinyl delete POST");
+    const [vinyl, copy] = await Promise.all([
+        Vinyl.findById(req.params.id).exec(),
+        VinylInstance.find({vinyl: req.params.id})
+        .populate("vinyl")
+        .exec(),
+    ])
+
+    if (copy.length > 0) {
+        res.render("genre_delete", {
+            title: "Delete Vinyl",
+            vinyl: vinyl,
+            copy: copy,
+        })
+    }
+
+    await Vinyl.findByIdAndDelete(req.params.id);
+    res.redirect("/catalog/vinyls");
 });
   
 exports.vinyl_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: vinyl update GET");
+
+    const [vinyl, genre] = await Promise.all([
+        Vinyl.findById(req.params.id).populate("artist").exec(),
+        Genre.find().exec(),
+    ])
+
+    res.render("vinyl_form", {title: "Upload Vinyl", vinyl: vinyl, genres: genre});
 });
   
-exports.vinyl_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: vinyl update POST");
-});
+exports.vinyl_update_post = [
+
+    (req, res, next) => {
+        if(!(req.body.genre instanceof Array)) {
+            if (typeof req.body.genre === "undefined") req.body.genre = [];
+            req.body.genre = new Array(req.body.genre);
+        }
+        next();
+    },  
+
+    body("vinyl_name").trim().isLength({min: 1}).escape("Vinyl name must not be empty"),
+    body("artist").trim().isLength({min: 1}).escape("Vinyl must not be empty"),
+    body("summary").trim().isLength({min: 1}),
+    body("date_of_release").isISO8601().toDate().escape("Input valid date."),
+    body("genre").escape(),
+
+    asyncHandler(async (req, res, next) => {
+
+        const artistExist = await Artist.findOne({artist_name: req.body.artist});
+        if (artistExist) {
+            req.body.artist = artistExist._id;
+        } else {
+            body("artist").escape("Artist does not exist. Upload it before assigning an Vinyl to them.")
+        }
+
+        const errors = validationResult(req);
+        const vinyl = new Vinyl({
+            vinyl_name: req.body.vinyl_name,
+            artist: req.body.artist,
+            summary: req.body.summary,
+            date_of_release: req.body.date_of_release,
+            genre: req.body.genre,
+            _id: req.params.id,
+        });
+
+        if(!errors.isEmpty()) {
+            const allGenres = await Genre.find().exec();
+        
+              for (const genre of allGenres) {
+                if (vinyl.genre.includes(genre._id)) {
+                  genre.checked = true;
+                }
+              }
+
+            res.render("vinyl_form", {
+                title: "Upload Vinyl",
+                vinyl: vinyl,
+                genres: allGenres,
+                errors: errors.array(),
+            });
+            return;
+        }
+
+        const updatedCopy = Vinyl.findByIdAndUpdate(req.params.id, vinyl, {});
+        res.redirect(vinyl.url)
+    })
+];
