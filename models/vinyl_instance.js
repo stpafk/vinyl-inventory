@@ -18,7 +18,7 @@ const VinylInstanceSchema = new Schema({
 })
 
 VinylInstanceSchema.virtual("url").get(function() {
-    return `/catalog/copies/${this._id}`
+    return `/catalog/copy/${this._id}`
 });
 
 module.exports = mongoose.model("VynilInstance", VinylInstanceSchema);

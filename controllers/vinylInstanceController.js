@@ -81,7 +81,11 @@ exports.copy_delete_get = asyncHandler(async (req, res, next) => {
 });
   
 exports.copy_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: copy delete POST");
+    const copy = await Copy.findById(req.params.id).populate("vinyl").exec();
+    const vinyl = await Vinyl.findById(copy.vinyl._id);
+
+    await Copy.findByIdAndDelete(req.params.id);
+    res.redirect(vinyl.url)
 });
   
 exports.copy_update_get = asyncHandler(async (req, res, next) => {
