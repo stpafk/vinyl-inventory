@@ -1,12 +1,22 @@
 const Copy = require("../models/vinyl_instance");
 const asyncHandler = require("express-async-handler");
-
-exports.copy_list = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: copy list");
-  });
+const Vinyl = require("../models/vinyl")
   
 exports.copy_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: copy detail: ${req.params.id}`);
+    const copy = Copy.findById(req.params.id)
+    .exec()
+    .populate("vinyl").exec();
+
+    if (copy === null) {
+        const err = new Error("Instance does not exist.");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("copy_detail", {
+        title: "Vinyl Issue",
+        copy: copy,
+    })
 });
   
 exports.copy_create_get = asyncHandler(async (req, res, next) => {
