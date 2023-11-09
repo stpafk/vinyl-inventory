@@ -4,6 +4,7 @@ const Artist = require('../models/artist');
 const VinylInstance = require('../models/vinyl_instance');
 const {body, validationResult} = require('express-validator');
 const asyncHandler = require("express-async-handler");
+const artist = require("../models/artist");
 
 exports.vinyl_list = asyncHandler(async (req, res, next) => {
     const vinyls = await Vinyl.find({}, "vinyl_name artist")
@@ -68,14 +69,12 @@ exports.vinyl_create_post = [
 
     asyncHandler(async (req, res, next) => {
 
+        const errors = validationResult(req);
         const artistExist = await Artist.findOne({artist_name: req.body.artist});
         if (artistExist) {
             req.body.artist = artistExist._id;
-        } else {
-            body("artist").escape("Artist does not exist. Upload it before assigning an Vinyl to them.")
         }
 
-        const errors = validationResult(req);
         const vinyl = new Vinyl({
             vinyl_name: req.body.vinyl_name,
             artist: req.body.artist,
@@ -85,19 +84,25 @@ exports.vinyl_create_post = [
             cover: req.body.cover,
         });
 
-        if(!errors.isEmpty()) {
+        if(!errors.isEmpty() || !artistExist) {
             const allGenres = await Genre.find().exec();
         
-              for (const genre of allGenres) {
+            for (const genre of allGenres) {
                 if (vinyl.genre.includes(genre._id)) {
-                  genre.checked = true;
+                    genre.checked = true;
                 }
-              }
+            }
+
+            if (!artistExist) {
+                errors.array().push("Artist not found");
+                var artistError = "Artist Error"
+            }
 
             res.render("vinyl_form", {
                 title: "Upload Vinyl",
                 vinyl: vinyl,
                 genres: allGenres,
+                artistError: artistError,
                 errors: errors.array(),
             });
             return;

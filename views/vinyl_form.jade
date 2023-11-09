@@ -9,7 +9,10 @@ block content
             input#vinyl_name.form-control(type='text', placeholder='Vinyl Name', required='true', name='vinyl_name', value=(undefined === vinyl ? '' : vinyl.vinyl_name))
         div.form-content
             label(for="artist") Artist: 
-            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true' name="artist" value=(undefined === vinyl ? '' : vinyl.artist.artist_name))
+            input#artist.form-control(type='text', placeholder='Ex. David Bowie', required='true' name="artist" value=(undefined === vinyl ? '' : value=(vinyl && vinyl.artist ? vinyl.artist.artist_name : '')))
+            if artistError
+                div.alert.alert-danger
+                    p Artist not registered. Please upload the Artist before assigning Vinyls.
         div.form-content
             label(for="description") Summary:
             textarea#summary.form-control(type='text', placeholder='', name='summary') #{undefined === vinyl ? '' : vinyl.summary}
