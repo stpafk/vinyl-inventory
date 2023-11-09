@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1=title
+
+    p #[strong Copy:]
+        a(href=copy.url) #{copy.copy_name}
+    p #[strong Description:] #{copy.description}
+    p #[strong Issue:] #{copy.issue}
+    img(src="http://localhost:3000/" + copy.vinyl.image, alt="Copy Image")
+
+    hr
+    p
+        a(href=copy.url+'/delete') Delete Issue
+    p
+        a(href=copy.url+'/update') Update Issue

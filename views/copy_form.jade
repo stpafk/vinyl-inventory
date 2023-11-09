@@ -1,0 +1,50 @@
+extends layout 
+
+block content 
+    h1=title 
+
+    form(method='POST' action='')
+        div.form-content
+            label(for="copy_name") Copy:
+            input#copy_name.form-control(type='text', placeholder='Copy Name', name='vinyl_name', 
+            required= 'true' value=(undefined === copy ? '' : copy.vinyl.vinyl_name))
+        
+        div.form-content
+            label(for="issue") Issue Year:
+            input#year.form-control(type='number' name='issue' required='true' maxlength="4" minlength="0"
+            placeholder="Ex. 1989" value=(undefined===copy ? '' : copy.year ) )
+        
+        div.form-content
+            label(for="released_by") Released By:
+            input#released_by.form-control(type='number' name='released_by' required='true' maxlength="100" minlength="1"
+            placeholder="Roadrunner Records" value=(undefined===copy ? '' : copy.released_by ) )
+        
+        div.form-content
+            label(for="released_in") Released In:
+            input#released_in.form-control(type='text' name='released_in' 
+            placeholder="Ex. USA" value=(undefined===copy ? '' : copy.released_in ) )
+        
+        div.form-group
+            label(for='status') Status:
+            select#status.form-control(type='select' placeholder='Select status' name='status' required='true' )
+                option(value='Loaned' selected=(undefined===copy || copy.status!='Loaned' ? false:'selected')) Loaned
+                option(value='Available' selected=(undefined===copy || copy.status!='Available' ? false:'selected')) Available
+                option(value='Auction' selected=(undefined===copy || copy.status!='Auction' ? false:'selected')) Auction
+                option(value='All Sold' selected=(undefined===copy || copy.status!='All Sold' ? false:'selected')) All Sold
+
+        div.form-content
+            label(for="quantity") How many copies?
+            input#quantity.form-control(type='number' name='quantity' 
+            placeholder="Ex. 3" value=(undefined===copy ? '' : copy.quantity ) )
+
+        div.form-content
+            label(for="price") Price:
+            input#price.form-control(type='number' name='price' 
+            placeholder="Ex. 2" value=(undefined===copy ? '' : copy.price ) )
+
+        button.btn.btn-primary(type='submit') Submit
+
+        if errors
+            ul
+                for error in errors
+                    li!= error.msg
