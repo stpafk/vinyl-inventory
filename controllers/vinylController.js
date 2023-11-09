@@ -4,6 +4,7 @@ const Artist = require('../models/artist');
 const VinylInstance = require('../models/vinyl_instance');
 const {body, validationResult} = require('express-validator');
 const asyncHandler = require("express-async-handler");
+const fs = require('fs')
 
 exports.vinyl_list = asyncHandler(async (req, res, next) => {
     const vinyls = await Vinyl.find({}, "vinyl_name artist")
@@ -58,10 +59,6 @@ exports.vinyl_create_post = [
             req.body.genre = new Array(req.body.genre);
         }
 
-        if(req.file) {
-            req.body.cover = req.file.path;
-        }
-
         next();
     },  
 
@@ -74,10 +71,15 @@ exports.vinyl_create_post = [
 
     asyncHandler(async (req, res, next) => {
 
-        const errors = validationResult(req);
+        const errors = validationResult(req); 
         const artistExist = await Artist.findOne({artist_name: req.body.artist});
+        
         if (artistExist) {
             req.body.artist = artistExist._id;
+        }
+
+        if(req.file) {
+            req.body.cover = req.file.path;
         }
 
         const vinyl = new Vinyl({
@@ -132,6 +134,15 @@ exports.vinyl_delete_get = asyncHandler(async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+
+    const imageToRemove = '../vynil-inventory/' + vinyl.cover;
+    fs.unlink(imageToRemove, (err) => {
+        if (err) {
+            console.log('err removing file')
+            console.log(err)
+        }
+        console.log('deleted')
+    })  
 
     res.render("vinyl_delete", {
         title: "Delete Vinyl",

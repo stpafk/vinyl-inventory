@@ -16,9 +16,9 @@ block content
     each v in vinyl
         li
             p #[strong Vinyl:]  
-                a(href=v.url) #{v.vynil_name}
-            p #[strong Year of Release:] #{v.year_of_release}
-            p #[strong Formed In:] #{artist.formed_in}
+                a(href=v.url) #{v.vinyl_name}
+            p #[strong Year of Release:] #{v.formatted_date}
+            p #[strong Summary:] #{v.summary}
             img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name)  
     else
         p There are no vynils related to this artist
