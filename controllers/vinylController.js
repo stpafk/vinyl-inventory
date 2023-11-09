@@ -50,7 +50,9 @@ exports.vinyl_create_get = asyncHandler(async (req, res, next) => {
 exports.vinyl_create_post = [
 
     (req, res, next) => {
-
+        if(!req.body.genre) {
+            req.body.genre = [];
+        }
         if(!(req.body.genre instanceof Array)) {
             if (typeof req.body.genre === "undefined") req.body.genre = [];
             req.body.genre = new Array(req.body.genre);
@@ -67,7 +69,7 @@ exports.vinyl_create_post = [
     body("artist").trim().isLength({min: 1}).escape("Vinyl must not be empty"),
     body("summary").trim().isLength({min: 1}),
     body("date_of_release").isISO8601().toDate().escape("Input valid date."),
-    body("genre").escape(),
+    body("genre.*").escape(),
     body("cover").escape(),
 
     asyncHandler(async (req, res, next) => {
@@ -147,7 +149,7 @@ exports.vinyl_delete_post = asyncHandler(async (req, res, next) => {
     ])
 
     if (copy.length > 0) {
-        res.render("genre_delete", {
+        res.render("vinyl_delete", {
             title: "Delete Vinyl",
             vinyl: vinyl,
             copy: copy,

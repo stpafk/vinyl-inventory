@@ -21,7 +21,7 @@ router.get("/artist", artist_controller.artist_list);
 router.get("/vinyl/create", vinyl_controller.vinyl_create_get);
 router.post("/vinyl/create", upload.single("cover"), vinyl_controller.vinyl_create_post);
 router.get("/vinyl/:id/delete", vinyl_controller.vinyl_delete_get); 
-router.post("/vynil/:id/delete", vinyl_controller.vinyl_delete_post); 
+router.post("/vinyl/:id/delete", vinyl_controller.vinyl_delete_post); 
 router.get("/vinyl/:id/update", vinyl_controller.vinyl_update_get); 
 router.post("/vinyl/:id/update", vinyl_controller.vinyl_update_post); 
 router.get("/vinyl/:id", vinyl_controller.vinyl_detail);
