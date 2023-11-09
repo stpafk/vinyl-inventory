@@ -15,7 +15,9 @@ exports.genre_list = asyncHandler(async (req, res, next) => {
 exports.genre_detail = asyncHandler(async (req, res, next) => {
     const [genre, vinyls] = await Promise.all([
         Genre.findById(req.params.id).exec(),
-        Vinyl.find({ genre: req.params.id }).exec(),
+        Vinyl.find({ genre: req.params.id })
+        .populate("artist")
+        .exec(),
     ]);
 
     if (genre === null) {
@@ -40,10 +42,7 @@ exports.genre_create_post = [
         .trim()
         .isLength({ min: 3 })
         .escape(),
-    body("description", "Description should not be empty")
-        .trim()
-        .isLength(1)
-        .escape(),
+    body("description").escape(),
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
@@ -116,10 +115,7 @@ exports.genre_update_post = [
       .trim()
       .isLength({ min: 3 })
       .escape(),
-  body("description", "Description should not be empty")
-      .trim()
-      .isLength(1)
-      .escape(),
+  body("description").escape(),
 
   asyncHandler(async (req, res, next) => {
       const errors = validationResult(req);

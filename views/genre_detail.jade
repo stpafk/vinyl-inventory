@@ -13,10 +13,11 @@ block content
     each v in vinyls
         li
             p #[strong Vinyl:]  
-                a(href=v.url) #{v.vynil_name}
+                a(href=v.url) #{v.vinyl_name}
+            p #[strong Artist:]
+                a(href=v.artist.url) #{v.artist.artist_name}
             p #[strong Year of Release:] #{v.year_of_release}
-            p #[strong Formed In:] #{artist.formed_in}
-            img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name)  
+            img(src="http://localhost:3000/" + v.cover, alt=v.vinyl_name)  
     else
         p There are no vynils related to this artist
 
