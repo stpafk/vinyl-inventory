@@ -35,7 +35,6 @@ router.post("/copy/:id/delete", vinylInstance_controller.copy_delete_post);
 router.get("/copy/:id/update", vinylInstance_controller.copy_update_get);
 router.post("/copy/:id/update", vinylInstance_controller.copy_update_post);
 router.get("/copy/:id", vinylInstance_controller.copy_detail);
-router.get("/copies", vinylInstance_controller.copy_list);
 
 //genre routes
 router.get("/genre/create", genre_controller.genre_create_get);
