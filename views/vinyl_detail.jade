@@ -24,9 +24,11 @@ block content
         p.text-danger #{val.status}
       else
         p.text-warning #{val.status}
-      p #[strong Imprint:] #{val.imprint}
-      p #[strong Id:]
-        a(href=val.url) #{val._id}
+        p #[strong Copy:]
+          a(href=val.url) #{vinyl.vinyl_name}: #{val._id}
+        p #[strong Year] #{val.year}
+        p #[strong Released By:] #{val.released_by}
+        p #[strong Released In:] #{val.released_in}
 
     else
       p There are no copies of this vinyl.

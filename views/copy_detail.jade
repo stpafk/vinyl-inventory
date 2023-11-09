@@ -5,9 +5,11 @@ block content
 
     p #[strong Copy:]
         a(href=copy.url) #{copy.copy_name}
-    p #[strong Description:] #{copy.description}
-    p #[strong Issue:] #{copy.issue}
-    img(src="http://localhost:3000/" + copy.vinyl.image, alt="Copy Image")
+    p #[strong Year] #{copy.year}
+    p #[strong Released By:] #{copy.released_by}
+    p #[strong Released In:] #{copy.released_in}
+    p #[strong Status:] #{copy.status}
+    img(src="http://localhost:3000/" + copy.vinyl.cover, alt="Copy Image")
 
     hr
     p

@@ -4,9 +4,7 @@ const Vinyl = require("../models/vinyl");
 const {body, validationResult} = require('express-validator');
   
 exports.copy_detail = asyncHandler(async (req, res, next) => {
-    const copy = Copy.findById(req.params.id)
-    .exec()
-    .populate("vinyl").exec();
+    const copy = await Copy.findById(req.params.id).populate("vinyl").exec();
 
     if (copy === null) {
         const err = new Error("Instance does not exist.");
@@ -74,7 +72,12 @@ exports.copy_create_post = [
 ]
   
 exports.copy_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: copy delete GET");
+    const copy = await Copy.findById(req.params.id).exec();
+
+    res.render("copy_delete", {
+        title: "Delete Vinyl Issue",
+        copy: copy
+    })
 });
   
 exports.copy_delete_post = asyncHandler(async (req, res, next) => {
