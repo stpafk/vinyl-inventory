@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoDBSession = require('connect-mongodb-session')(session)
 require("dotenv").config();
 
 var indexRouter = require('./routes/index');
@@ -30,9 +32,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const store = new MongoDBSession({
+  uri: mongoDB,
+  collection: "mySessions"
+})
+
+app.use(session({
+  secret: "Key to assign cookie",
+  resave: false,
+  saveUninitialized: false,
+  store: store,
+}))
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/user', usersRouter);
 app.use('/catalog', catalogRouter);
 app.use('/uploads', express.static("uploads"))
 
