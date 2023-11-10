@@ -6,12 +6,14 @@ block content
         
         ul
             each a in artists 
-                li
-                    img(src="http://localhost:3000/" + a.image, alt="Artist Image" style=('width: 128px; height: 128px'))
-                    p #[strong Artist:]
-                        a(href=a.url) #{a.artist_name} 
-                    p #[strong Description:] #{a.description}
-                    p #[strong Formed In:] #{a.formed_in}
+                li(style="display: flex; flex-direction: row; margin: 2% 0")
+                    div
+                        img(src="http://localhost:3000/" + a.image, alt="Artist Image" style=('width: 128px; height: 128px'))
+                    div(style="padding-left: 2%")
+                        p.lead Artist:
+                            a(href=a.url) #{a.artist_name} 
+                        p.lead Description: #{a.description}
+                        p.lead Formed In: #{a.formed_in}
 
             else 
-                p There are no artists in the system.
+                p.lead There are no artists in the system.
