@@ -61,6 +61,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: store,
+  isAuth: isAuth,
 }))
 
 module.exports = app;

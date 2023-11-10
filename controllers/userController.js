@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
+const bcrypt = require('bcryptjs');
+const isAuth = require('../app')
 
 exports.register_create_get = asyncHandler(async (req, res, next) => {
     res.render("register_form", {})
@@ -14,6 +16,8 @@ exports.register_create_post = [
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(body);
+
+        req.body.password = await bcrypt.hash(req.body.password, 12)
 
         const user = new User({
             username: req.body.username,
@@ -38,10 +42,23 @@ exports.register_create_post = [
 ]
 
 exports.login_create_get = asyncHandler(async (req, res, next) => {
-    console.log('here')
-    res.render("register_form", {})
+    res.render("login_form", {})
 })
 
 exports.login_create_post = asyncHandler(async(req, res, next) => {
-    res.render("NOT IMPLEMENTED")
+    
+    const user = await User.findOne({email: req.body.email});
+    
+    if(!user) {
+        res.render("login_form", {notRegisteredEmail: req.body.email, emailAlert: "Email not registered"})
+    }
+
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+
+    if(!isMatch) {
+        res.render("login_form", {user: user, pwdError: "Password did not match."});
+    }
+
+    req.session.isAuth = true;
+    res.redirect("/")
 })
