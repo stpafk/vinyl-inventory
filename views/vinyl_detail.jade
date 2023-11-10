@@ -1,40 +1,46 @@
 extends layout
 
 block content
-  h1 Title: #{vinyl.vinyl_name}
+  div.container(style='margin-left:20px;margin-top:20px')
+    h1 Title: #{vinyl.vinyl_name}
 
-  p #[strong Artist:]
-    a(href=vinyl.artist.url) #{vinyl.artist.artist_name}
-  p #[strong Summary:] #{vinyl.summary}
-  p #[strong Formed In:] #{vinyl.formatted_date}
-  p #[strong Genre:]
-    each val, index in vinyl.genre
-      a(href=val.url) #{val.name}
-      if index < vinyl.genre.length - 1
-        |,
+    div.row
+      div.col-
+        img(src="http://localhost:3000/" + vinyl.cover, alt=vinyl.vynil_name) 
+       
+      div.col-sm(style="padding: 5% 2%")
+        p #[strong Artist:]
+          a(href=vinyl.artist.url) #{vinyl.artist.artist_name}
+        p #[strong Summary:] #{vinyl.summary}
+        p #[strong Released In:] #{vinyl.formatted_date}
+        p #[strong Genre:]
+          each val, index in vinyl.genre
+            a(href=val.url) #{val.name}
+            if index < vinyl.genre.length - 1
+              |,
 
-  div(style='margin-left:20px;margin-top:20px')
-    h4 Copies
+    div(style="margin: 2% 0")
+      h4 Copies
 
-    each val in copy
-      hr
-      if val.status=='Available'
-        p.text-success #{val.status}
-      else if val.status=='Loaned'
-        p.text-danger #{val.status}
+      each val in copy
+        hr
+        if val.status=='Available'
+          p.text-success #{val.status}
+        else if val.status=='Loaned'
+          p.text-danger #{val.status}
+        else
+          p.text-warning #{val.status}
+          p #[strong Copy:]
+            a(href=val.url) #{vinyl.vinyl_name}: #{val._id}
+          p #[strong Year] #{val.year}
+          p #[strong Released By:] #{val.released_by}
+          p #[strong Released In:] #{val.released_in}
+
       else
-        p.text-warning #{val.status}
-        p #[strong Copy:]
-          a(href=val.url) #{vinyl.vinyl_name}: #{val._id}
-        p #[strong Year] #{val.year}
-        p #[strong Released By:] #{val.released_by}
-        p #[strong Released In:] #{val.released_in}
+        p There are no copies of this vinyl.
 
-    else
-      p There are no copies of this vinyl.
-
-    hr
-    p
-      a(href=vinyl.url+'/delete') Delete vinyl
-    p
-      a(href=vinyl.url+'/update') Update vinyl
+      hr
+      p
+        a(href=vinyl.url+'/delete') Delete vinyl
+      p
+        a(href=vinyl.url+'/update') Update vinyl
