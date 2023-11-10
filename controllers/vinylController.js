@@ -7,7 +7,7 @@ const asyncHandler = require("express-async-handler");
 const fs = require('fs')
 
 exports.vinyl_list = asyncHandler(async (req, res, next) => {
-    const vinyls = await Vinyl.find({}, "vinyl_name artist")
+    const vinyls = await Vinyl.find({}, "vinyl_name artist cover")
     .sort({vinyl_name: 1})
     .populate("artist")
     .exec();
