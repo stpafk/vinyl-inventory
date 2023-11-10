@@ -42,7 +42,7 @@ exports.copy_create_post = [
         if (vinylExist) {
             req.body.copy_name = vinylExist._id;
         }
-        console.log(req.body)
+        
         const errors = validationResult(req);
         const copy = new Copy({
             vinyl: req.body.copy_name,
@@ -53,7 +53,7 @@ exports.copy_create_post = [
             price: req.body.price,
             status: req.body.status,
         });
-        console.log(errors.array())
+        
         if (!errors.isEmpty()) {
             const vinyl = await Vinyl.find().exec();
             
@@ -89,9 +89,61 @@ exports.copy_delete_post = asyncHandler(async (req, res, next) => {
 });
   
 exports.copy_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: copy update GET");
+    const copy = await Copy.findById(req.params.id).populate("vinyl").exec();
+
+    if (copy === null) {
+        const err = new Error("Copy not found.");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("copy_form", {
+        title: "Update Copy",
+        copy: copy,
+    })
 });
   
-exports.copy_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: copy update POST");
-});
+exports.copy_update_post = [
+    body("copy_name").trim().isLength({min: 1}).escape("Input vinyl name."),
+    body("year").isLength({min: 0, max: 4}).escape("Input valid year."),
+    body("released_by").trim().isLength({min: 1, max: 100}).escape("Input valid Record Label."),
+    body("released_in").trim().isLength({max: 28}).escape("Input a valid Country."),
+    body("quantity").isInt().escape("Input quantity."),
+    body("price").isInt().escape(),
+    body("status").escape(),
+
+    asyncHandler(async (req, res, next) => {
+
+        const vinylExist = await Vinyl.findOne({vinyl_name: req.body.copy_name})
+        if (vinylExist) {
+            req.body.copy_name = vinylExist._id;
+        }
+        
+        const errors = validationResult(req);
+        const copy = new Copy({
+            vinyl: req.body.copy_name,
+            year: req.body.year,
+            released_by: req.body.released_by,
+            released_in: req.body.released_in,
+            quantity: req.body.quantity,
+            price: req.body.price,
+            status: req.body.status,
+            _id: req.params.id,
+        });
+        
+        if (!errors.isEmpty()) {
+            const vinyl = await Vinyl.find().exec();
+            
+            res.render("copy_form", {
+                title: "Update Issue",
+                vinyl: vinyl,
+                copy: copy,
+                errors: errors.array()
+            });
+            return;
+        }
+
+        const updatedCopy = await Copy.findByIdAndUpdate(req.params.id, copy, {});
+        res.redirect(copy.url)
+    })
+]
