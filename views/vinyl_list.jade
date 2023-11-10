@@ -6,7 +6,7 @@ block content
   ul(style="display: grid; grid-template-rows: 1fr; grid-template-columns: 1fr")
     each vinyl in vinyls
       li(style="margin: 1%")
-        img(src="http://localhost:3000/" + vinyl.cover, alt=vinyl.vinyl_name style=('width: 128px; height: 128px'))
+        img(src="http://localhost:3000/" + vinyl.cover, alt=vinyl.vinyl_name style=("width: 240px; height: 240px"))
         a(href=vinyl.url style="padding-left: 2%") #{vinyl.vinyl_name}
         |  (#{vinyl.artist.artist_name})
 
