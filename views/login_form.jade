@@ -1,0 +1,31 @@
+extends layout
+
+block content 
+    h1 Login 
+
+    form(method='POST' action='')
+        div.form-content
+            label(for="email") Email: 
+            input#email.form-control(type='text' name='email'
+            placeholder='Your Email' required='true'
+            value=(undefined === user ? '' : (!user.email ? notRegisteredEmail : user.email)))
+            if emailTaken || emailAlert
+                div.alert.alert-danger
+                    p #{emailTaken || emailAlert}
+        div.form-content
+            label(for="username") Password: 
+            input#password.form-control(type='password' name='password' 
+            placeholder='Your Password' required='true')
+            if pwdError 
+                div.alert.alert-danger 
+                    p #{pwdError}
+        
+        button.btn.btn-primary(type='submit') Submit
+    
+    a(href='/login')
+
+    if errors
+            ul
+                for error in errors
+                    li!= error.msg
+        
