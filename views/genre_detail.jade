@@ -1,9 +1,7 @@
 extends layout
 
 block content
-    h1=title
-
-    h1 #{genre.name}
+    h1 #{title}: #{genre.name}
     p= genre.description
 
     div(style='margin-left:20px;margin-top:20px')
@@ -11,13 +9,16 @@ block content
 
     ul
     each v in vinyls
-        li
-            p #[strong Vinyl:]  
-                a(href=v.url) #{v.vinyl_name}
-            p #[strong Artist:]
-                a(href=v.artist.url) #{v.artist.artist_name}
-            p #[strong Year of Release:] #{v.formatted_date}
-            img(src="http://localhost:3000/" + v.cover, alt=v.vinyl_name)  
+        div.row(style="margin: 2% 0")
+            div.col-
+                img(src="http://localhost:3000/" + v.cover, alt=v.vinyl_name style=("width: 240px; height: 240px")) 
+       
+            div.col-sm(style="padding: 5% 2%")
+                p #[strong Vinyl:]  
+                    a(href=v.url) #{v.vinyl_name}
+                p #[strong Artist:]
+                    a(href=v.artist.url) #{v.artist.artist_name}
+                p #[strong Year of Release:] #{v.formatted_date}
     else
         p There are no vynils related to this artist
 

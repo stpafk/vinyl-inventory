@@ -5,10 +5,10 @@ block content
     h1=title
         ul
             each g in genres 
-                li
-                    p #[strong Genre:]
+                li(style=("margin: 2% 0"))
+                    p.lead #[strong Genre:]
                         a(href=g.url) #{g.name} 
-                    p #[strong Description:] #{g.description}
+                    p.lead #[strong Description:] #{g.description}
 
             else 
                 p There are no genres in the system.
