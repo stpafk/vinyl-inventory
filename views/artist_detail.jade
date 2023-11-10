@@ -1,25 +1,28 @@
 extends layout
 
 block content
-    h1=title
+    h1 #{title}: #{artist.artist_name}
 
-    p #[strong Artist:]
-        a(href=artist.url) #{artist.artist_name}
-    p #[strong Description:] #{artist.description}
-    p #[strong Formed In:] #{artist.formed_in}
-    img(src="http://localhost:3000/" + artist.image, alt="Artist Image")
+    div.row(style=("margin: 2% 0; align-items: center;")) 
+        div.col-
+            img(src="http://localhost:3000/" + artist.image, alt="Artist Image" style=("width: 280px; height: 280px"))
+        div.col-sm
+            p #[strong Description:] #{artist.description}
+            p #[strong Formed In:] #{artist.formed_in}.
 
     div(style='margin-left:20px;margin-top:20px')
     h4 Copies
 
     ul
     each v in vinyl
-        li
-            p #[strong Vinyl:]  
-                a(href=v.url) #{v.vinyl_name}
-            p #[strong Year of Release:] #{v.formatted_date}
-            p #[strong Summary:] #{v.summary}
-            img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name)  
+        div.row(style=("margin: 2% 0; align-items: center;"))
+            div.col-
+                img(src="http://localhost:3000/" + v.cover, alt=v.vynil_name style=("width: 240px; height: 240px"))  
+            div.col-sm
+                p #[strong Vinyl:]  
+                    a(href=v.url) #{v.vinyl_name}
+                p #[strong Year of Release:] #{v.formatted_date}
+                p #[strong Summary:] #{v.summary}
     else
         p There are no vynils related to this artist
 
