@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoDBSession = require('connect-mongodb-session')(session)
+const passport = require('passport');
 require("dotenv").config();
 
 var indexRouter = require('./routes/index');
@@ -31,6 +31,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({secret: "kitty", resave: false, saveUninitialized: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.urlencoded({extended: false}));
+
+
 app.use('/', indexRouter);
 app.use('/catalog', catalogRouter);
 app.use('/uploads', express.static("uploads"))
@@ -51,17 +57,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const store = new MongoDBSession({
-  uri: mongoDB,
-  collection: "mySessions"
-})
-
-app.use(session({
-  secret: "Key to assign cookie",
-  resave: false,
-  saveUninitialized: false,
-  store: store,
-  isAuth: isAuth,
-}))
-
 module.exports = app;
+//
