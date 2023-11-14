@@ -3,6 +3,7 @@ var router = express.Router();
 const passport = require('passport');
 
 const userController = require("../controllers/userController");
+const ps = require('../middleware/passport')
 
 router.get("/", (req, res) => {
     if (req.session.isAuth){
@@ -12,9 +13,11 @@ router.get("/", (req, res) => {
 })
 
 router.get("/register", userController.register_create_get);
-router.post("/register", passport.authenticate("signup"), userController.register_create_post);
+router.post("/register", userController.register_create_post);
 
 router.get("/login", userController.login_create_get);
-router.post("/login", userController.login_create_post);
+router.post("/login", passport.authenticate("login"), function(req, res) {
+    res.redirect("/catalog")
+});
 
 module.exports = router;

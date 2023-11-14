@@ -44,21 +44,3 @@ exports.register_create_post = [
 exports.login_create_get = asyncHandler(async (req, res, next) => {
     res.render("login_form", {})
 })
-
-exports.login_create_post = asyncHandler(async(req, res, next) => {
-    
-    const user = await User.findOne({email: req.body.email});
-    
-    if(!user) {
-        res.render("login_form", {notRegisteredEmail: req.body.email, emailAlert: "Email not registered"})
-    }
-
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
-
-    if(!isMatch) {
-        res.render("login_form", {user: user, pwdError: "Password did not match."});
-    }
-
-    req.session.isAuth = true;
-    res.redirect("/")
-})

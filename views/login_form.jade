@@ -3,7 +3,7 @@ extends layout
 block content 
     h1 Login 
 
-    form(method='POST' action='')
+    form(method='POST' action='/login')
         div.form-content
             label(for="email") Email: 
             input#email.form-control(type='text' name='email'
@@ -22,7 +22,7 @@ block content
         
         button.btn.btn-primary(type='submit') Submit
     
-    a(href='/login')
+    a(href='/register')
 
     if errors
             ul
