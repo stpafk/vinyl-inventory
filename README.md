@@ -30,9 +30,10 @@ Here's how to run this project locally
 ### Prerequisites 
 
 First, you should have Node, Git (if you use Linux, it's already installed.) and an Atlas dabatase set up.
-[Get Node here.](https://nodejs.org/en)
-[Get Git here](https://git-scm.com/).
-[Atlas MongoDB](https://www.mongodb.com/atlas/database)
+
+* [Get Node here.](https://nodejs.org/en)
+* [Get Git here](https://git-scm.com/).
+* [Atlas MongoDB](https://www.mongodb.com/atlas/database)
 
 ### Installation 
 
@@ -48,19 +49,33 @@ Install NPM packages
    npm install 
    ```
 
-Create a .env file with a variable called MONGO like this:
+Create a `.env` file with a variable called MONGO like this:
 
  ```sh
-    MONGO = "mongodb+srv://<username>:<password>@<cluster>.<key>.mongodb.net/?retryWrites=true&w=majority"
+ MONGO = "mongodb+srv://<username>:<password>@<cluster>.<key>.mongodb.net/?retryWrites=true&w=majority"
  ```
  
-Run the application>
+Run the application:
 
 ```sh
-    npm run dev
+npm run dev
 ```
+
+## Roadmap
+
+- [X] Set up database.
+- [X] Add routes and controllers.
+- [X] Add views. 
+- [X] Add Register and Login.
+- [ ] User relationship
+    - [ ] Only allowed to delete instances that themselves created.
+    - [ ] Able to buy and sell issues (not real money).
+- [ ] Change style
 
 ## Contact
 
-Twitter: [https://twitter.com/dubsteph4n](https://twitter.com/dubsteph4n)
-Project Link: [https://github.com/stpafk/vynil-inventory](https://github.com/stpafk/vynil-inventory)
+[![Twitter](https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white)](https://twitter.com/dubsteph4n)
+
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/stephan-allek-weigert-53801619b/)
+
+[![Project Link](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/stpafk/vynil-inventory)
